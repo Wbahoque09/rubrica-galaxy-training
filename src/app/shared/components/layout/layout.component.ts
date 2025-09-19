@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
 
+
 @Component({
-  selector: 'home',
+  selector: 'layout',
   imports: [NavbarComponent, RouterOutlet],
-  templateUrl: './home.component.html',
+  templateUrl: './layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent { }
+export class LayoutComponent { }
