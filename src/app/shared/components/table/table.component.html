@@ -1,1 +1,55 @@
-<p>table works!</p>,
+<div class="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
+  <table class="min-w-full border-collapse">
+    <thead class="bg-teal-600 text-white">
+      <tr>
+        @for (col of value().header; track $index) {
+          <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
+            {{col}}
+          </th>
+        }
+        <!-- <th
+          *ngFor="let col of columns"
+          class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider"
+        >
+          {{ col.header }}
+        </th> -->
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr
+        *ngFor="let item of paginatedData"
+        class="hover:bg-gray-100 transition"
+      >
+        <td
+          *ngFor="let col of columns"
+          class="px-6 py-4 text-sm text-gray-700"
+        >
+          {{ item[col.field] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  <div class="flex items-center justify-between px-6 py-4 bg-gray-50">
+    <button
+      (click)="changePage(currentPage() - 1)"
+      [disabled]="currentPage() === 1"
+      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300"
+    >
+      Anterior
+    </button>
+
+    <span class="text-gray-600 text-sm">
+      Página {{ currentPage() }} de {{ totalPages }}
+    </span>
+
+    <button
+      (click)="changePage(currentPage() + 1)"
+      [disabled]="currentPage() === totalPages"
+      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300"
+    >
+      Siguiente
+    </button>
+  </div>
+</div>
