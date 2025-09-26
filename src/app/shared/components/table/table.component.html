@@ -1,32 +1,47 @@
 <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
   <table class="min-w-full border-collapse">
-    <thead class="bg-teal-600 text-white">
+    <!-- Encabezado -->
+    <thead class="bg-gray-50 text-teal-600">
       <tr>
-        @for (col of value().header; track $index) {
-          <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">
-            {{col}}
-          </th>
-        }
-        <!-- <th
-          *ngFor="let col of columns"
-          class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider"
-        >
-          {{ col.header }}
-        </th> -->
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">ID</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Título</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Precio</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold uppercase tracking-wider">Descripción</th>
+        <th class="px-6 py-3 text-center text-sm font-semibold uppercase tracking-wider">Acciones</th>
       </tr>
     </thead>
+
+    <!-- Cuerpo -->
     <tbody class="bg-white divide-y divide-gray-200">
-      <tr
-        *ngFor="let item of paginatedData"
-        class="hover:bg-gray-100 transition"
-      >
-        <td
-          *ngFor="let col of columns"
-          class="px-6 py-4 text-sm text-gray-700"
-        >
-          {{ item[col.field] }}
-        </td>
-      </tr>
+      @for (item of paginatedData; track $index) {
+        <tr class="hover:bg-gray-100 transition">
+          <td class="px-6 py-4 text-sm text-gray-700">{{ item.id }}</td>
+          <td class="px-6 py-4 text-sm text-gray-700">{{ item.title }}</td>
+          <td class="px-6 py-4 text-sm text-gray-700">$ {{ item.price }}</td>
+          <td class="px-6 py-4 text-sm text-gray-600 truncate max-w-xs">
+            {{ item.description }}
+          </td>
+          <td class="px-6 py-4 flex justify-center gap-3">
+            <!-- Botón Editar -->
+            <button
+              (click)="''"
+              class="p-2 rounded-md bg-teal-500 hover:bg-teal-600 text-white"
+              title="Editar"
+            >
+              <img src="./assets/edit.svg" alt="icon edit" class="">
+            </button>
+
+            <!-- Botón Eliminar -->
+            <button
+              (click)="''"
+              class="p-2 rounded-md bg-gray-200 hover:bg-gray-300 text-white"
+              title="Eliminar"
+            >
+              <img src="./assets/delete.svg" alt="icon edit" class="">
+            </button>
+          </td>
+        </tr>
+      }
     </tbody>
   </table>
 
