@@ -25,7 +25,7 @@
             <!-- Botón Editar -->
             <button
               (click)="''"
-              class="p-2 rounded-md bg-teal-500 hover:bg-teal-600 text-white"
+              class="p-2 rounded-md bg-teal-500 hover:bg-teal-600 text-white cursor-pointer"
               title="Editar"
             >
               <img src="./assets/edit.svg" alt="icon edit" class="">
@@ -34,7 +34,7 @@
             <!-- Botón Eliminar -->
             <button
               (click)="''"
-              class="p-2 rounded-md bg-gray-200 hover:bg-gray-300 text-white"
+              class="p-2 rounded-md bg-gray-200 hover:bg-gray-300 text-white cursor-pointer"
               title="Eliminar"
             >
               <img src="./assets/delete.svg" alt="icon edit" class="">
@@ -50,7 +50,7 @@
     <button
       (click)="changePage(currentPage() - 1)"
       [disabled]="currentPage() === 1"
-      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300"
+      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300 cursor-pointer"
     >
       Anterior
     </button>
@@ -62,7 +62,7 @@
     <button
       (click)="changePage(currentPage() + 1)"
       [disabled]="currentPage() === totalPages"
-      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300"
+      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300 cursor-pointer"
     >
       Siguiente
     </button>
