@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSig
 import { ProductService } from '../../products/services/product.service';
 import { Category, ResponseProducts } from '../../products/models/iproducts';
 import { TableComponent } from "../../../shared/components/table/table.component";
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'home',
-  imports: [TableComponent],
+  imports: [ReactiveFormsModule, TableComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -14,6 +15,10 @@ export class HomeComponent implements OnInit {
   protected productsExample: WritableSignal<ResponseProducts[] | null> = signal<
     ResponseProducts[] | null
   >(null);
+  protected id = new FormControl('', [
+    Validators.required,
+    Validators.pattern(/^(?:[1-9]|[1-9][0-9])$/),
+  ]);
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
@@ -93,6 +98,20 @@ export class HomeComponent implements OnInit {
         console.warn(err);
       },
     });
+  }
+
+  onSearch() {
+    if (this.id.invalid) {
+      console.log('error', this.id.errors);
+      this.validatorsMessage(this.id.errors);
+      return
+    }
+    const value = this.id.value;
+    console.log('Validador '+value);
+  }
+
+  validatorsMessage(erros: any) {
+    console.log(erros['required']);
   }
 
   // columns = [
