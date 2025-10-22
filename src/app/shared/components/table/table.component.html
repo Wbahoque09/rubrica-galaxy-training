@@ -16,9 +16,9 @@
       @for (item of paginatedData; track $index) {
         <tr class="hover:bg-gray-100 transition">
           <td class="px-6 py-4 text-sm text-gray-700">{{ item.id }}</td>
-          <td class="px-6 py-4 text-sm text-gray-700">{{ item.title }}</td>
+          <td class="px-6 py-4 text-sm text-gray-700 max-w-xs text-ellipsis">{{ item.title }}</td>
           <td class="px-6 py-4 text-sm text-gray-700">$ {{ item.price }}</td>
-          <td class="px-6 py-4 text-sm text-gray-600 truncate max-w-xs">
+          <td class="px-6 py-4 text-sm text-gray-600 truncate max-w-xl">
             {{ item.description }}
           </td>
           <td class="px-6 py-4 flex justify-center gap-3">
@@ -50,7 +50,7 @@
     <button
       (click)="changePage(currentPage() - 1)"
       [disabled]="currentPage() === 1"
-      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300 cursor-pointer"
+      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300 enabled:cursor-pointer"
     >
       Anterior
     </button>
@@ -62,7 +62,7 @@
     <button
       (click)="changePage(currentPage() + 1)"
       [disabled]="currentPage() === totalPages"
-      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300 cursor-pointer"
+      class="px-3 py-1 rounded-md text-sm bg-teal-500 text-white disabled:bg-gray-300 enabled:cursor-pointer"
     >
       Siguiente
     </button>

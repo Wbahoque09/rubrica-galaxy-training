@@ -3,25 +3,34 @@
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
     <h2 class="text-lg font-semibold text-gray-700">Listado de Productos</h2>
 
-    <div
-      class="flex items-center w-full sm:w-1/3 bg-gray-50 border border-gray-300 rounded-lg overflow-hidden">
-      <input
-        type="text"
-        [formControl]="id"
-        placeholder="Buscar por ID..."
-        class="w-full px-3 py-2 text-sm text-gray-700 bg-transparent focus:outline-none"
-      />
+    <div class="flex items-center justify-end w-full sm:w-1/2 gap-2">
+
       <button
-        (click)="onSearch()"
-        class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 flex items-center justify-center"
-        title="Buscar"
-      >
-        🔍
+        (click)="onReset()"
+        class="bg-gray-300 hover:bg-gray-400 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 hover:cursor-pointer">
+        Restablecer
       </button>
+
+      <div
+        class="flex items-center w-full sm:w-1/3 bg-gray-50 border border-gray-300 rounded-lg overflow-hidden">
+        <input
+          type="text"
+          [formControl]="id"
+          placeholder="Buscar por ID..."
+          class="w-full px-3 py-2 text-sm text-gray-700 bg-transparent focus:outline-none"
+        />
+        <button
+          (click)="onSearch()"
+          class="bg-teal-500 hover:bg-teal-600 text-white hover:cursor-pointer px-4 py-2 flex items-center justify-center"
+          title="Buscar"
+        >
+          <img src="assets/search.svg" alt="img lupa" class="">
+        </button>
+      </div>
     </div>
   </div>
-  <div class=" overflow-x-auto">
 
-    <table-component [data]="productsExample()" />
+  <div class=" overflow-x-auto">
+    <table-component [data]="products" />
   </div>
 </div>

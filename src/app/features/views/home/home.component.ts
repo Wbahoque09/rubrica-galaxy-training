@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { ProductService } from '../../products/services/product.service';
-import { Category, ResponseProducts } from '../../products/models/iproducts';
-import { TableComponent } from "../../../shared/components/table/table.component";
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TableComponent } from "../../../shared/components/table/table.component";
+import { Category, ResponseProducts } from '../../products/models/iproducts';
+import { ProductService } from '../../products/services/product.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'home',
@@ -23,7 +24,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    console.log('carga de componente');
     this.getProduct();
     this.productsExample.set([
       {
@@ -92,27 +92,68 @@ export class HomeComponent implements OnInit {
   getProduct() {
     this.productService.getAllProducts().subscribe({
       next: (response) => {
-        console.log(response);
+        this.productService.products.set(response);
       },
       error: (err) => {
-        console.warn(err);
+        toast.error('Error', {
+          duration: 4000,
+          description: `Ha ocurrrido un error, ${err}`,
+        });
       },
     });
   }
 
+  get products(): ResponseProducts[] {
+    return this.productService.products()!;
+  }
+
   onSearch() {
     if (this.id.invalid) {
-      console.log('error', this.id.errors);
+      // console.log('error', this.id.errors);
       this.validatorsMessage(this.id.errors);
-      return
+      return;
     }
-    const value = this.id.value;
-    console.log('Validador '+value);
+    const value = +this.id.value!;
+    this.getProductId(value);
+    this.cleanForm();
   }
 
   validatorsMessage(erros: any) {
-    console.log(erros['required']);
+    if (erros['required']) {
+      toast.error('Error de validación', {
+        duration: 4000,
+        description: 'Debes ingresar un ID',
+      });
+      return;
+    }
+    toast.error('Error de validación', {
+      duration: 4000,
+      description: 'Solo se aceptan valores numericos del 1 al 99',
+    });
   }
+
+  cleanForm() {
+    this.id.reset();
+  }
+
+  getProductId(id:number) {
+    this.productService.getProductId(id).subscribe({
+      next: (response) => {
+        this.productService.products.set([response]);
+      },
+      error: (err) => {
+        toast.error('Error', {
+          duration: 4000,
+          description: `Ha ocurrrido un error, ${err}`,
+        });
+      }
+    })
+  }
+
+  onReset() {
+    this.getProduct();
+  }
+  // console.log(erros['required']);
 
   // columns = [
   //   { header: 'ID', field: 'id' },
