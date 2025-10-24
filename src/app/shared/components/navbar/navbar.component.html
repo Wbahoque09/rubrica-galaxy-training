@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <div class="flex-1 md:flex md:items-center md:gap-12">
-        <a class="block text-teal-600" href="#">
+        <a class="block text-teal-600">
           <span class="sr-only">Home</span>
           <svg class="h-8" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -17,11 +17,11 @@
         <nav aria-label="Global" class="hidden md:block">
           <ul class="flex items-center gap-6 text-sm">
             <li>
-              <a class="text-gray-500 transition hover:text-gray-500/75" href="#"> Inicio </a>
+              <a class="text-gray-500 transition hover:text-gray-500/75" [routerLink]="['/home']" [routerLinkActive]="'text-gray-600 font-bold'"> Inicio </a>
             </li>
 
             <li>
-              <a class="text-gray-500 transition hover:text-gray-500/75" href="#"> Agregar </a>
+              <a class="text-gray-500 transition hover:text-gray-500/75" [routerLink]="['/add-product']" [routerLinkActive]="'text-gray-600 font-bold'"> Agregar </a>
             </li>
 
             <!-- <li>
@@ -45,16 +45,15 @@
         <div class="flex items-center gap-4">
           <div class="sm:flex sm:gap-4">
             <a
-              class="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-              href="#"
+              class="rounded-md bg-teal-600 hover:cursor-pointer px-5 py-2.5 text-sm font-medium text-white shadow"
             >
               Login
             </a>
 
             <div class="hidden sm:flex">
               <a
-                class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                href="#"
+                class="rounded-md bg-gray-100 hover:cursor-pointer px-5 py-2.5 text-sm font-medium text-teal-600"
+
               >
                 Register
               </a>

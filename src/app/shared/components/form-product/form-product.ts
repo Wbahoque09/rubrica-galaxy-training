@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormProduct } from '../../../shared/components/form-product/form-product';
 
 @Component({
-  selector: 'add-product-view',
-  imports: [FormProduct],
-  templateUrl: './add-product-view.component.html',
+  selector: 'form-product',
+  imports: [],
+  templateUrl: './form-product.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddProductViewComponent {
+export class FormProduct {
   form = {
     id: Date.now(),
     title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
