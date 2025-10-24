@@ -1,12 +1,31 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'form-product',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './form-product.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormProduct {
+  formProducts = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    price: new FormControl(0, [
+      Validators.required,
+      Validators.pattern(/^(?:[1-9][0-9]*)(?:\.[0-9]+)?$/),
+    ]),
+    description: new FormControl('', [Validators.required]),
+    category: new FormControl('', [Validators.required]),
+    image: new FormControl('', [Validators.required]),
+  });
+
+  get priceValue(): number {
+    const raw = this.formProducts.value;
+    const num = +raw;
+    return isNaN(num) ? 0 : num;
+  }
+
   form = {
     id: Date.now(),
     title: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
@@ -24,9 +43,39 @@ export class FormProduct {
   productJson = '';
 
   protected onSubmit() {
-    this.form.id = Date.now();
-    this.productJson = JSON.stringify(this.form, null, 2);
-    console.log('Producto agregado:', this.form);
+    // this.form.id = Date.now();
+    // this.productJson = JSON.stringify(this.form, null, 2);
+    if (this.validForm(this.formProducts.errors)) return;
+    console.log(
+      this.formProducts.value.category,
+      ' ',
+      this.formProducts.value.description,
+      ' ',
+      this.formProducts.value.image,
+      ' ',
+      this.formProducts.value.price,
+      ' ',
+      this.formProducts.value.title
+    );
+    // console.log('Producto agregado:', this.form);
+  }
+
+  validForm(errors: any): boolean {
+    if (this.formProducts.invalid) {
+      if (errors['required']) {
+        toast.error('Error de validación', {
+          duration: 4000,
+          description: 'Debes ingresar un ID',
+        });
+        return true;
+      }
+      toast.error('Error de validación', {
+        duration: 4000,
+        description: 'Solo se aceptan valores numericos del 1 en adelante',
+      });
+      return true;
+    }
+    return false;
   }
 
   protected resetForm() {
