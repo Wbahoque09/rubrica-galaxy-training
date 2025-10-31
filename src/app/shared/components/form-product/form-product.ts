@@ -1,23 +1,27 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'form-product',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgClass],
   templateUrl: './form-product.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormProduct {
-  formProducts = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    price: new FormControl(0, [
+
+  private formBuilder = inject(FormBuilder);
+
+  formProducts = this.formBuilder.group({
+    title: ['', [Validators.required]],
+    price: [0, [
       Validators.required,
       Validators.pattern(/^(?:[1-9][0-9]*)(?:\.[0-9]+)?$/),
-    ]),
-    description: new FormControl('', [Validators.required]),
-    category: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required]),
+    ]],
+    description: ['', [Validators.required]],
+    category: ['', [Validators.required]],
+    image: ['', [Validators.required]],
   });
 
   get priceValue(): number {
@@ -45,37 +49,63 @@ export class FormProduct {
   protected onSubmit() {
     // this.form.id = Date.now();
     // this.productJson = JSON.stringify(this.form, null, 2);
-    if (this.validForm(this.formProducts.errors)) return;
-    console.log(
-      this.formProducts.value.category,
-      ' ',
-      this.formProducts.value.description,
-      ' ',
-      this.formProducts.value.image,
-      ' ',
-      this.formProducts.value.price,
-      ' ',
-      this.formProducts.value.title
-    );
+    if (this.formProducts.invalid) {
+      console.log(this.formProducts.get('price')?.errors);
+      // return;
+    }
+    if (this.validForm()) return;
+    console.log(this.formProducts.value);
+    // if (this.validForm(this.formProducts.errors)) return;
+    // console.log(
+    //   this.formProducts.value.category,
+    //   ' ',
+    //   this.formProducts.value.description,
+    //   ' ',
+    //   this.formProducts.value.image,
+    //   ' ',
+    //   this.formProducts.value.price,
+    //   ' ',
+    //   this.formProducts.value.title
+    // );
     // console.log('Producto agregado:', this.form);
   }
 
-  validForm(errors: any): boolean {
+  validForm(): boolean {
     if (this.formProducts.invalid) {
-      if (errors['required']) {
+      console.log('entro a las validaciones');
+      if (
+        this.formProducts.get('title')?.errors!['required'] ||
+        this.formProducts.get('category')?.errors!['required'] ||
+        this.formProducts.get('description')?.errors!['required'] ||
+        this.formProducts.get('image')?.errors!['required']
+      ) {
         toast.error('Error de validación', {
           duration: 4000,
-          description: 'Debes ingresar un ID',
+          description: 'Debes llenar los campos correspondientes',
         });
+        this.formProducts.markAllAsTouched();
+        console.log('entre a las validaciones requeridas');
         return true;
       }
-      toast.error('Error de validación', {
-        duration: 4000,
-        description: 'Solo se aceptan valores numericos del 1 en adelante',
-      });
-      return true;
+      if (this.formProducts.get('price')?.errors) {
+        console.log('entre a las validaciones de expresiones regulares');
+        toast.error('Error de validación', {
+          duration: 4000,
+          description: 'Ingrese un precio valido.',
+        });
+        this.formProducts.markAllAsTouched();
+        return true;
+      }
     }
+    console.log('retorno false');
     return false;
+  }
+
+  inputValidate(nameInput: string) {
+    return (
+      this.formProducts.get(nameInput)?.invalid &&
+      this.formProducts.get(nameInput)?.touched
+    );
   }
 
   protected resetForm() {
